@@ -80,6 +80,9 @@ def solver_nos(t0, y0, f, nos, tk, method='expl_RK4', tuning='', verb=0, outform
 		
 		
 def DumpedSoln(t, g):
-	A1=g/(2.*np.sqrt(g**2 -4))+0.5
-	A2=g/(2.*np.sqrt(g**2 -4))-0.5
-	x=np.exp(-g/2.*t)*()
+	A2=1.
+	A1=2./np.sqrt(g**2 -4)
+	x=np.exp(-g/2.*t)*(A1*np.sin(np.sqrt(g**2 -4)/2.*t)+A2*np.cos(np.sqrt(g**2 -4)/2.*t))
+	p=0.5*np.exp(-g/2.*t)(np.cos(np.sqrt(g**2 -4)/2.*t)*(2-g)+np.sin(np.sqrt(g**2 -4)/2.*t)*(A1*g-2.*A2*np.sqrt(g**2 -4)/2.))
+	return x, p
+
