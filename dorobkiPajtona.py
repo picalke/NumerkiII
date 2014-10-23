@@ -78,3 +78,8 @@ def solver_nos(t0, y0, f, nos, tk, method='expl_RK4', tuning='', verb=0, outform
 	elif outform=='list'
 		return soln
 		
+		
+def DumpedSoln(t, g):
+	A1=g/(2.*np.sqrt(g**2 -4))+0.5
+	A2=g/(2.*np.sqrt(g**2 -4))-0.5
+	x=np.exp(-g/2.*t)*()
