@@ -1,7 +1,8 @@
 #! /usr/bin/python
 
 import numpy as np
-#import scipy as sp
+import scipy as sp
+import scipy.optimize as opt
 
 #one step of method. Full integrator in another function
 #f(t, y)--LHS function in standard form, y -- current value, t -- current time, dt -- step
@@ -57,7 +58,7 @@ def impl_mpm_step(f, y, t, dt, tuning=['default']):
 
 	#by defauld we use Newton method with Krylow approx of jacobian
 	#maybe later some if statements and options, who knows
-	sol = np.newton_krylov(lambda yn: y+dt*f(t+0.5*dt, 0.5(y+yn)-yn), y, method='lgmres', verbose=1)
+	sol = opt.fsolve(lambda yn: y+dt*f(t+0.5*dt, 0.5*(y+yn))-yn, y)[0] if type(y)!=np.ndarray else opt.fsolve(lambda yn: y+dt*f(t+0.5*dt, 0.5*(y+yn))-yn, y)
 	return t+dt, sol
 	
 ######

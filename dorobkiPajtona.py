@@ -86,3 +86,5 @@ def DumpedSoln(t, g):
 	p=0.5*np.exp(-g/2.*t)(np.cos(np.sqrt(g**2 -4)/2.*t)*(2-g)+np.sin(np.sqrt(g**2 -4)/2.*t)*(A1*g-2.*A2*np.sqrt(g**2 -4)/2.))
 	return x, p
 
+
+

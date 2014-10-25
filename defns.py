@@ -16,3 +16,16 @@ def DumpedSoln(t, g):
 	p=0.5*np.exp(-1*g/2.*t)*(np.cos(np.sqrt(-g**2+4)/2.*t)*(2-g)+np.sin(np.sqrt(-g**2+4)/2.*t)*(A1*g-2.*A2*np.sqrt(-g**2+4)/2.))
 	return x, p
 
+
+def anal(t, g):
+    x=np.exp(-g/2.*t)*np.cos(np.sqrt(4-g**2)/2.*t)
+    p=np.exp(-g/2.*t)*np.sin(np.sqrt(4-g**2)/2.*t)
+    return x,p
+    
+import matplotlib.pyplot as plt
+
+sol=num.solver_dt(0., y0, osc, 0.05, 100, method='expl_euler')
+sol2=num.solver_dt(0., y0, osc, 0.05, 100, method='impl_midpoint')
+
+
+
