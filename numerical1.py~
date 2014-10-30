@@ -105,7 +105,7 @@ def expl_sym_euler_step(f, y, t, dt, tuning=['default']):
 	halba=len(y)/2
 	pn=y[:halba]+dt*f(t,y)[:halba]
 	tmp_y=np.reshape([pn, y[halba:]])
-	#Ty, mosz recht, wez dwie!
+	#Ty, mosz recht, weź dwie!
 	qn=y[halba:]+dt*f(t,tmp_y)[halba:]
 	yn = np.reshape([pn,qn], halba*2)
 	return t+dt, yn
