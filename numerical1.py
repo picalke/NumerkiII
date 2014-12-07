@@ -11,6 +11,10 @@ def vec(a):
 #one step of method. Full integrator in another function
 #f(t, y)--LHS function in standard form, y -- current value, t -- current time, dt -- step
 #
+def typetest(a, b):
+	return type(a)!=float and type(b)!=float and type(a)!=np.float64 and type(b)!=np.float64 and type(a)!=complex and type(b)!=complex and type(a)!=np.complex128 and type(b)!=np.complex128
+	
+
 def expl_euler_step(f, y, t, dt, tuning=[]):
 	if type(y)!=type(f(t,y)):
 		print "solver error 0: type returned by RHS not matching type of data!"
@@ -20,7 +24,7 @@ def expl_euler_step(f, y, t, dt, tuning=[]):
 			print "solver error 1: length of array returned by RHS not matching size of data array!"
 			return float('NaN'),float('NaN')
 	
-	elif type(y)!=float and type(f(t,y))!=float and type(y)!=np.float64 and type(f(t,y))!=np.float64:
+	elif typetest(y, f(t,y)):
 		print "solver error 3: Type of data or RHS does not match desired format (float or numpy.float64)"
 		return float('NaN'),float('NaN')
 
@@ -37,7 +41,7 @@ def expl_mpm_step(f, y, t, dt, tuning=[]):
 			print "solver error 1: length of array returned by RHS not matching size of data array!"
 			return float('NaN'),float('NaN')
 	
-	elif type(y)!=float and type(f(t,y))!=float and type(y)!=np.float64 and type(f(t,y))!=np.float64:
+	elif typetest(y, f(t,y)):
 		print "solver error 3: Type of data or RHS does not match desired format (float or numpy.float64)"
 		return float('NaN'),float('NaN')
 
@@ -56,7 +60,7 @@ def impl_mpm_step(f, y, t, dt, tuning=['default']):
 			print "solver error 1: length of array returned by RHS not matching size of data array!"
 			return float('NaN'),float('NaN')
 	
-	elif type(y)!=float and type(f(t,y))!=float and type(y)!=np.float64 and type(f(t,y))!=np.float64:
+	elif typetest(y, f(t,y)):
 		print "solver error 3: Type of data or RHS does not match desired format (float or numpy.float64)"
 		return float('NaN'),float('NaN')
 
@@ -75,7 +79,7 @@ def expl_rk4_step(f, y, t, dt, tuning=['default']):
 			print "solver error 1: length of array returned by RHS not matching size of data array!"
 			return float('NaN'),float('NaN')
 	
-	elif type(y)!=float and type(f(t,y))!=float and type(y)!=np.float64 and type(f(t,y))!=np.float64:
+	elif typetest(y, f(t,y)):
 		print "solver error 3: Type of data or RHS does not match desired format (float or numpy.float64)"
 		return float('NaN'),float('NaN')
 
@@ -145,6 +149,9 @@ def expl_neri_step(f, y, t, dt, tuning=['default']):
 		#if len(y)!=len(f[0](y))*2 or len(y)!=len(f[1](y))*2:
 		#	print "solver error 1: length of array returned by RHS not matching size of data array!"
 		#	return float('NaN'),float('NaN')
+		if not issubclass(y.dtype.type, np.float) or not issubclass(y.dtype.type, np.complex):
+			print "Non-float value of solution may cause problems! return wth float or complex"
+			return float('NaN'),float('NaN')
 		if len(y)%2!=0:
 			print "symplectic method only valid for Hamiltonian system: such system needs to be at least two-dimensional and of even dimension, which is not the case here!"
 			return float('NaN'), float('NaN')
@@ -177,8 +184,8 @@ def expl_suzuki_step(f, y, t, dt, tuning=['default']):
 		#if len(y)!=len(f[0](y[halba:]))*2 or len(y)!=len(f[1](y[:halba]))*2:
 		#	print "solver error 1: length of array returned by RHS not matching size of data array!"
 		#	return float('NaN'),float('NaN')
-		if not issubclass(y.dtype.type, np.float):
-			print "Non-float value of solution may cause problems! return wth float"
+		if not issubclass(y.dtype.type, np.float) or not issubclass(y.dtype.type, np.complex):
+			print "Non-float value of solution may cause problems! return wth float or complex"
 			return float('NaN'),float('NaN')
 		if len(y)%2!=0:
 			print "symplectic method only valid for Hamiltonian system: such system needs to be at least two-dimensional and of even dimension, which is not the case here!"
@@ -276,9 +283,4 @@ def solver_nos(t0, y0, f, nos, tk, method='expl_RK4', tuning='', v=0, outform='a
 		return np.array([[i[0]]+ ([a for a in i[1]] if type(i[1])==np.ndarray else [i[1]])  for i in soln])
 	elif outform=='list':
 		return soln
-		
 
-
-
-
-	
